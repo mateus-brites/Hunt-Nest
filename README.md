@@ -56,4 +56,4 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-Por fim, a aplicação estará disponível em `http://localhost:3333`
+Para visualizar o banco de dados acesse: `http://localhost:8081/db/Hunt/`
