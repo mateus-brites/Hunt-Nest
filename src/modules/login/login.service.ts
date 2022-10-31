@@ -30,7 +30,7 @@ export class LoginService {
     const payload = { email: findUserByEmail.email, sub: findUserByEmail._id };
 
     const token = this.jwtService.sign(payload, {
-      secret: '6eb51784aeb24e7fed5ce4fe9f27b0bd',
+      secret: process.env.JWT_KEY,
     });
 
     return token;

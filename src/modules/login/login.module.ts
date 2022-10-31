@@ -13,7 +13,7 @@ import { LoginService } from './login.service';
     UserModel,
     PassportModule,
     JwtModule.register({
-      secret: '6eb51784aeb24e7fed5ce4fe9f27b0bd',
+      secret: process.env.JWT_KEY,
       signOptions: { expiresIn: '15d' },
     }),
   ],
