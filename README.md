@@ -26,10 +26,20 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+---
+
+### ⚙️Requisitos
+- [Node.js](https://nodejs.org/en/download/)
+- [Docker](https://docs.docker.com/engine/install/ubuntu/)
+- [Docker-Compose](https://docs.docker.com/compose/install/)
+
+---
 ## Installation
 
 ```bash
-$ npm install
+- Rode `npm i` para baixar as dependências
+- Rode `docker-compose up` Para criar os containeres
+
 ```
 
 ## Running the app
@@ -37,6 +47,7 @@ $ npm install
 ```bash
 # development
 $ npm run start
+
 
 # watch mode
 $ npm run start:dev
