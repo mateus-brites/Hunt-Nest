@@ -1,7 +1,5 @@
 import { AcessControll } from '@/utils/AcessControll';
 import { JwtAuthGuard } from '@modules/login/jwt-auth.guard';
-import { IJwt } from '@modules/login/types/IJwt';
-import { UserModel } from '@modules/user/user';
 import {
   Controller,
   Delete,
@@ -13,7 +11,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import jwtDecode from 'jwt-decode';
 import { BooksService } from './books.service';
 import { IBook } from './types/IBook';
 
