@@ -12,7 +12,6 @@ async function bootstrap() {
     `mongodb://Hunt_user:Hunt_pass@localhost:27017/Hunt?directConnection=true&authSource=admin&replicaSet=replicaset&retryWrites=true`,
   );
 
-  app.use(passport.initialize());
   await app.listen(3000);
 
   app.use(
