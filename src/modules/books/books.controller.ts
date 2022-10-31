@@ -1,11 +1,27 @@
-import { Controller, Delete, Get, Post, Put, Req, Res } from '@nestjs/common';
+import { AcessControll } from '@/utils/AcessControll';
+import { JwtAuthGuard } from '@modules/login/jwt-auth.guard';
+import { IJwt } from '@modules/login/types/IJwt';
+import { UserModel } from '@modules/user/user';
+import {
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
+import jwtDecode from 'jwt-decode';
 import { BooksService } from './books.service';
 import { IBook } from './types/IBook';
 
+@UseGuards(JwtAuthGuard)
 @Controller('books')
 export class BooksController {
   booksService = new BooksService();
+
   @Get()
   async getAll(@Req() request: Request, @Res() response: Response) {
     try {
@@ -44,6 +60,15 @@ export class BooksController {
     const { id } = request.params;
     const { author, available, title }: IBook = request.body;
 
+    const authToken = request.headers.authorization;
+    const [, token] = authToken.split(' ');
+
+    const isAdmin = await AcessControll(token, 'administrador');
+
+    if (!isAdmin) {
+      return response.status(403).json({ message: 'Unauthorized' });
+    }
+
     try {
       const updatedBook = await this.booksService.updateBookById({
         _id: id,
@@ -60,6 +85,15 @@ export class BooksController {
   @Put('available/:id')
   async reserveBook(@Req() request: Request, @Res() response: Response) {
     const { id } = request.params;
+
+    const authToken = request.headers.authorization;
+    const [, token] = authToken.split(' ');
+
+    const isCliente = await AcessControll(token, 'cliente');
+
+    if (!isCliente) {
+      return response.status(403).json({ message: 'Unauthorized' });
+    }
 
     try {
       const book = await this.booksService.getBookById(id);
@@ -82,6 +116,15 @@ export class BooksController {
   async createBook(@Req() request: Request, @Res() response: Response) {
     const { author, available, title }: IBook = request.body;
 
+    const authToken = request.headers.authorization;
+    const [, token] = authToken.split(' ');
+
+    const isAdmin = await AcessControll(token, 'administrador');
+
+    if (!isAdmin) {
+      return response.status(403).json({ message: 'Unauthorized' });
+    }
+
     try {
       const book = await this.booksService.createBook({
         author,
@@ -98,6 +141,15 @@ export class BooksController {
   @Delete(':id')
   async deleteBook(@Req() request: Request, @Res() response: Response) {
     const { id } = request.params;
+
+    const authToken = request.headers.authorization;
+    const [, token] = authToken.split(' ');
+
+    const isAdmin = await AcessControll(token, 'administrador');
+
+    if (!isAdmin) {
+      return response.status(403).json({ message: 'Unauthorized' });
+    }
 
     try {
       await this.booksService.deleteBook(id);

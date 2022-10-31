@@ -5,7 +5,7 @@ import { ILogIn } from './types/ILogIn';
 
 @Controller('login')
 export class LoginController {
-  logInService = new LoginService();
+  constructor(private logInService: LoginService) {}
   @Post()
   async logInUser(@Req() request: Request, @Res() response: Response) {
     const { email, password }: ILogIn = request.body;
@@ -14,6 +14,7 @@ export class LoginController {
       const token = await this.logInService.logInUser({ email, password });
       return response.status(200).json(token);
     } catch (err) {
+      console.log(err);
       return response.status(404).json(err);
     }
   }

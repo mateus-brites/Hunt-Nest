@@ -3,12 +3,15 @@ import { AppModule } from './app.module';
 import mongoose from 'mongoose';
 import { AppError } from './error/AppError';
 import { NextFunction, Request, Response } from 'express';
+import passport from 'passport';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await mongoose.connect(
     `mongodb://Hunt_user:Hunt_pass@localhost:27017/Hunt?directConnection=true&authSource=admin&replicaSet=replicaset&retryWrites=true`,
   );
+
+  app.use(passport.initialize());
   await app.listen(3000);
 
   app.use(
